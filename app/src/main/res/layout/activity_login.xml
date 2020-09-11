@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <Button
+            android:id="@+id/emailAndPassword"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/ic_email"
+            android:padding="10dp"
+            android:text="signIn with Email And Password"
+            android:background="@drawable/button_background"
+            android:elevation="7dp">
+
+        </Button>
+
+
+        <Button
+            android:id="@+id/googleAccount"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="signIn with Google Account"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/ic_icons8_google"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background"
+            android:elevation="7dp"
+            android:padding="10dp"
+            android:layout_below="@+id/emailAndPassword">
+
+        </Button>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fantasy"
+
+        android:title="Fantasy">
+
+    </item>
+
+    <item
+        android:id="@+id/medicals"
+        android:title="Medical">
+
+    </item>
+
+
+    <item
+        android:id="@+id/romance"
+        android:title="Romance">
+
+    </item>
+
+    <item
+        android:id="@+id/science"
+        android:title="Science">
+
+    </item>
+
+
+    <item
+        android:id="@+id/fiction"
+        android:orderInCategory="100"
+        android:title="Fiction"/>
+
+
+    <item
+        android:id="@+id/classic"
+        android:orderInCategory="100"
+        android:title="Classic "/>
+
+    <item
+        android:id="@+id/comic"
+        android:orderInCategory="100"
+        android:title="Comic "/>
+
+
+</menu>
