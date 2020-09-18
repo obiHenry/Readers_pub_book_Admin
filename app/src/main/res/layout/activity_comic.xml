@@ -4,38 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FantasyActivity">
-
-
-
-
-
+    tools:context=".ComicActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:padding="20dp">
 
-
             <ImageButton
-                android:id="@+id/FantasybookCover"
+                android:id="@+id/comicbookCover"
                 android:layout_width="250dp"
                 android:layout_height="350dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/ic_add_a_photo"
-                android:scaleType="fitCenter"
+                android:scaleType="centerInside"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/add_image">
 
             </ImageButton>
 
             <EditText
-                android:id="@+id/FantasybookTitle"
+                android:id="@+id/comicbookTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:layout_below="@+id/FantasybookCover"
+                android:layout_below="@+id/comicbookCover"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
                 android:padding="15dp"
@@ -45,11 +38,11 @@
             </EditText>
 
             <EditText
-                android:id="@+id/FantasybookDescription"
+                android:id="@+id/comicbookDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:layout_below="@+id/FantasybookTitle"
+                android:layout_below="@+id/comicbookTitle"
                 android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
@@ -60,11 +53,11 @@
             </EditText>
 
             <EditText
-                android:id="@+id/FantasybookContent"
+                android:id="@+id/comicbookContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:layout_below="@+id/FantasybookDescription"
+                android:layout_below="@+id/comicbookDescription"
                 android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
@@ -74,7 +67,6 @@
 
             </EditText>
 
-
             <Button
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -83,19 +75,20 @@
                 android:textColor="#fff"
                 android:background="@color/colorPrimary"
                 android:padding="12dp"
-                android:layout_below="@+id/FantasybookContent"
-                android:id="@+id/addfantasyPdfFile"
+                android:layout_below="@+id/comicbookContent"
+                android:id="@+id/addComicPdfFile"
                 android:layout_marginTop="15dp"/>
+
             <Button
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/update_fantasy_books"
+                android:text="@string/update_comic_books"
                 android:textColor="#fff"
                 android:background="@color/colorPrimary"
                 android:padding="12dp"
-                android:layout_below="@+id/addfantasyPdfFile"
-                android:id="@+id/updateFantasyBook"
+                android:layout_below="@+id/addComicPdfFile"
+                android:id="@+id/updateComicBook"
                 android:layout_marginTop="15dp"/>
         </RelativeLayout>
 </ScrollView>

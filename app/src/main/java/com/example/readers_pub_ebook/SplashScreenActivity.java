@@ -14,8 +14,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser User;
 
-    private static int SPLASH_TIME_OUT = 500;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         User = firebaseAuth.getCurrentUser();
 
 
-
+        int SPLASH_TIME_OUT = 500;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run () {
@@ -36,7 +34,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             }
 
-        },SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);
     }
 
     private void sendUserToLoginActivity() {

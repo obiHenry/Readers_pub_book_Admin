@@ -39,39 +39,37 @@ import java.util.Locale;
 import java.util.Objects;
 //import java.util.concurrent.atomic.AtomicInteger;
 
-public class FantasyActivity extends AppCompatActivity {
+public class ClassicActivity extends AppCompatActivity {
 
     public static final int galleryPick = 1;
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title, postRandomName, currentUserID, downloadUrl, pdfUrl;
+    private String description,title, downloadUrl, pdfUrl, postRandomName, currentUserID;
     private StorageReference storageReference;
-    private DatabaseReference fantasyBookRef;
+    private DatabaseReference classicBookRef;
     private ProgressDialog progressDialog;
-    private long fantasyBookCount = 0;
-    //private AtomicInteger count = new AtomicInteger(0);
+    private long classicBookCount = 0;
+//    private AtomicInteger count = new AtomicInteger(0);
 //    private int firstCount;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fantasy);
+        setContentView(R.layout.activity_classic);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("fantasy");
-
+        getSupportActionBar().setTitle("Classic");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         currentUserID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
-        fantasyBookRef = FirebaseDatabase.getInstance().getReference().child("fantasy");
+        classicBookRef = FirebaseDatabase.getInstance().getReference().child("classic");
         progressDialog = new ProgressDialog(this);
 
-        addBookCoverImage = findViewById(R.id.FantasybookCover);
-        addTitle = findViewById(R.id.FantasybookTitle);
-        addContent = findViewById(R.id.FantasybookContent);
-        addDescription = findViewById(R.id.FantasybookDescription);
-        Button updateBookButton = findViewById(R.id.updateFantasyBook);
-        Button selectPdfFile = findViewById(R.id.addfantasyPdfFile);
+        addBookCoverImage = findViewById(R.id.classicbookCover);
+        addTitle = findViewById(R.id.classicbookTitle);
+        addContent = findViewById(R.id.classicbookContent);
+        addDescription = findViewById(R.id.classicbookDescription);
+        Button updateBookButton = findViewById(R.id.updateClassicBook);
+        Button selectPdfFile = findViewById(R.id.addPdfFile);
 
         addBookCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,20 +78,21 @@ public class FantasyActivity extends AppCompatActivity {
             }
         });
 
+
         updateBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateFantasyBookInfo();
+                validateClassicBookInfo();
             }
         });
 
         selectPdfFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(FantasyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    selectPdf();
+                if (ContextCompat.checkSelfPermission(ClassicActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                     selectPdf();
                 }else{
-                    ActivityCompat.requestPermissions(FantasyActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+                    ActivityCompat.requestPermissions(ClassicActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
                 }
             }
         });
@@ -116,6 +115,7 @@ public class FantasyActivity extends AppCompatActivity {
         startActivityForResult(intent, 56);
     }
 
+
     private void openGallery() {
         Intent GalleryIntent = new Intent();
         GalleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -130,7 +130,7 @@ public class FantasyActivity extends AppCompatActivity {
 
             imageUri = data.getData();
             addBookCoverImage.setImageURI(imageUri);
-        } else if (requestCode == 56 && resultCode == RESULT_OK && data != null){
+        }else if (requestCode == 56 && resultCode == RESULT_OK && data != null){
             pdfUri = data.getData();
             addContent.setText(String.format("%s%s", pdfUri, getString(R.string.pdf)));
         }else {
@@ -139,38 +139,35 @@ public class FantasyActivity extends AppCompatActivity {
     }
 
 
-    private void validateFantasyBookInfo() {
+    private void validateClassicBookInfo() {
         description = addDescription.getText().toString();
         title = addTitle.getText().toString();
-//        content = addContent.getText().toString();
         if (imageUri == null){
             Toast.makeText(this, "please select an image.. ", Toast.LENGTH_LONG).show();
-        }else if (pdfUri == null){
-            Toast.makeText(this, "please select a pdf file.. ", Toast.LENGTH_LONG).show();
-        }else if (description.isEmpty()|| title.isEmpty()){
+        }else if (description.isEmpty()|| title.isEmpty()) {
             Toast.makeText(this, "please input book contents.. ", Toast.LENGTH_LONG).show();
+        }else if (pdfUri == null){
+            Toast.makeText(this,"please select pdf file ", Toast.LENGTH_LONG).show();
         }else {
-
-
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setTitle("adding new book");
             progressDialog.setMessage("please wait, while we update your book");
             progressDialog.show();
             progressDialog.setProgress(0);
             progressDialog.setCanceledOnTouchOutside(true);
-            storeImageToFirebaseStorage();
+            uploadFileToFirebaseStorage();
         }
     }
 
 
-    private void storeImageToFirebaseStorage() {
+    private void uploadFileToFirebaseStorage() {
 
         Calendar callForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat(" dd-MMM-YYYY", Locale.ENGLISH);
         String saveCurrentDate = currentDate.format(callForDate.getTime());
 
         Calendar callForTime = Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm",Locale.ENGLISH);
         String saveCurrentTime = currentTime.format(callForTime.getTime());
 
         postRandomName = saveCurrentDate + saveCurrentTime;
@@ -181,6 +178,7 @@ public class FantasyActivity extends AppCompatActivity {
         final StorageReference pdfPath = storageReference.child("pdfFilePath").child(postRandomName + ".pdf");
         final StorageReference filePath = storageReference.child("bookCoverImages").child(imageUri.getLastPathSegment()  + postRandomName + ".jpg");
 
+
         pdfPath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -188,8 +186,8 @@ public class FantasyActivity extends AppCompatActivity {
                     pdfPath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            pdfUrl = uri.toString();
-                            saveImagetoDatabase();
+                           pdfUrl = uri.toString();
+
                         }
                     });
                 }
@@ -202,7 +200,6 @@ public class FantasyActivity extends AppCompatActivity {
 
             }
         });
-
         filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -211,6 +208,7 @@ public class FantasyActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             downloadUrl = uri.toString();
+                            saveImagetoDatabase();
 
                         }
                     });
@@ -228,14 +226,15 @@ public class FantasyActivity extends AppCompatActivity {
 
     private void saveImagetoDatabase() {
 
-        fantasyBookRef.addValueEventListener(new ValueEventListener() {
+        classicBookRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()){
-//              firstCount = count.incrementAndGet();
-                fantasyBookCount = dataSnapshot.getChildrenCount();
-            }else {
-                    fantasyBookCount = 0;
+
+                if (dataSnapshot.exists()){
+//                    firstCount = count.incrementAndGet();
+                    classicBookCount = dataSnapshot.getChildrenCount();
+                }else {
+                    classicBookCount = 0;
 //                    firstCount = 0;
                 }
             }
@@ -247,31 +246,32 @@ public class FantasyActivity extends AppCompatActivity {
         });
 
         HashMap<String, Object> postMap = new HashMap<>();
+
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
-        postMap.put("postImage", downloadUrl);
-        postMap.put("counter",fantasyBookCount);
+        postMap.put("bookCover", downloadUrl);
+        postMap.put("counter",classicBookCount);
         postMap.put("title", title);
 
-        fantasyBookRef.child(fantasyBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            progressDialog.dismiss();
-                            Toast.makeText(FantasyActivity.this, "new book is updated Successfully ", Toast.LENGTH_SHORT).show();
-                            sendUserToMainActivity();
-                        }else {
-                            String message = Objects.requireNonNull(task.getException()).getMessage();
-                            progressDialog.dismiss();
-                            Toast.makeText(FantasyActivity.this, "Error occurred while updating ur book:  " + message, Toast.LENGTH_SHORT).show();
-                        }
+        classicBookRef.child(classicBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+                        progressDialog.dismiss();
+                        Toast.makeText(ClassicActivity.this, "new book is updated Successfully ", Toast.LENGTH_SHORT).show();
+                        sendUserToMainActivity();
+                    }else {
+                        String message = Objects.requireNonNull(task.getException()).getMessage();
+                        progressDialog.dismiss();
+                        Toast.makeText(ClassicActivity.this, "Error occurred while updating ur book:  " + message, Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+            });
     }
 
     void sendUserToMainActivity(){
-        Intent MainIntent = new Intent(FantasyActivity.this,MainActivity.class);
+        Intent MainIntent = new Intent(ClassicActivity.this,MainActivity.class);
         MainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(MainIntent);
         finish();

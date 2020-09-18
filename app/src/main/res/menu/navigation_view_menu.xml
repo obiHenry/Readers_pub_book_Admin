@@ -2,16 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fantasy"
+        android:id="@+id/classic"
+        android:title="@string/classic"/>
 
+    <item
+        android:id="@+id/comic"
+        android:title="Comic "/>
+
+    <item
+        android:id="@+id/fantasy"
         android:title="Fantasy">
 
     </item>
 
     <item
+        android:id="@+id/fiction"
+        android:title="Fiction"/>
+
+    <item
+        android:id="@+id/history"
+        android:title="History "/>
+
+
+    <item
+        android:id="@+id/magical"
+        android:title="Magical "/>
+
+    <item
         android:id="@+id/medicals"
         android:title="Medical">
-
     </item>
 
 
@@ -26,23 +45,5 @@
         android:title="Science">
 
     </item>
-
-
-    <item
-        android:id="@+id/fiction"
-        android:orderInCategory="100"
-        android:title="Fiction"/>
-
-
-    <item
-        android:id="@+id/classic"
-        android:orderInCategory="100"
-        android:title="Classic "/>
-
-    <item
-        android:id="@+id/comic"
-        android:orderInCategory="100"
-        android:title="Comic "/>
-
 
 </menu>

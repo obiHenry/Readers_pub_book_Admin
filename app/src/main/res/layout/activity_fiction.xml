@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FictionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/fictionbookCover"
+            android:layout_width="250dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_add_a_photo"
+            android:scaleType="centerInside"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/add_image">
+
+        </ImageButton>
+
+        <EditText
+            android:id="@+id/fictionbookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_below="@+id/fictionbookCover"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edit_text_background"
+            android:padding="15dp"
+            android:hint="@string/book_title"
+            android:autofillHints="@string/book_title">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/fictionbookDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/fictionbookTitle"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edit_text_background"
+            android:padding="15dp"
+            android:hint="@string/book_description"
+            android:autofillHints="@string/book_description">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/fictionbookContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/fictionbookDescription"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edit_text_background"
+            android:padding="15dp"
+            android:hint="@string/content_of_the_book"
+            android:autofillHints="@string/content_of_the_book">
+
+        </EditText>
+
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/add_a_pdf_file"
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
+            android:padding="12dp"
+            android:layout_below="@+id/fictionbookContent"
+            android:id="@+id/addFictionPdfFile"
+            android:layout_marginTop="15dp"/>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/update_fiction_books"
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
+            android:padding="12dp"
+            android:layout_below="@+id/addFictionPdfFile"
+            android:id="@+id/updateFictionBook"
+            android:layout_marginTop="15dp"/>
+    </RelativeLayout>
+</ScrollView>

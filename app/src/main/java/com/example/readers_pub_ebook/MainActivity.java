@@ -8,6 +8,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -31,8 +33,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Home");
 
+
         navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawerLayout);
+
+        View navView = navigationView.inflateHeaderView(R.layout.headers_view);
+        TextView navHeading = (TextView)navView.findViewById(R.id.genres);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -60,20 +66,34 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FantasyActivity.class);
             startActivity(intent);
 
-
         }else if (id == R.id.medicals){
+            Intent intent = new Intent(this, MedicalsActivity.class);
+            startActivity(intent);
 
         }else if (id ==R.id.romance){
-
+            Intent intent = new Intent(this, RomanceActivity.class);
+            startActivity(intent);
 
         }else if(id == R.id.science){
+            Intent intent = new Intent(this, ScienceActivity.class);
+            startActivity(intent);
 
         }else if(id == R.id.fiction){
+            Intent intent = new Intent(this, FictionActivity.class);
+            startActivity(intent);
 
         }else if (id == R.id.classic) {
-
+            Intent intent = new Intent(this, ClassicActivity.class);
+            startActivity(intent);
         }else if (id == R.id.comic){
-
+            Intent intent = new Intent(this, ComicActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.magical){
+            Intent intent = new Intent(this, MagicalActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.history){
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
         }
     }
 

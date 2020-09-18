@@ -39,39 +39,38 @@ import java.util.Locale;
 import java.util.Objects;
 //import java.util.concurrent.atomic.AtomicInteger;
 
-public class FantasyActivity extends AppCompatActivity {
+public class ComicActivity extends AppCompatActivity {
 
     public static final int galleryPick = 1;
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title, postRandomName, currentUserID, downloadUrl, pdfUrl;
+    private String description, title,postRandomName, currentUserID, downloadUrl, pdfUrl;
     private StorageReference storageReference;
-    private DatabaseReference fantasyBookRef;
+    private DatabaseReference comicBookRef;
     private ProgressDialog progressDialog;
-    private long fantasyBookCount = 0;
-    //private AtomicInteger count = new AtomicInteger(0);
+    private long comicBookCount = 0;
+//    private AtomicInteger count = new AtomicInteger(0);
 //    private int firstCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fantasy);
+        setContentView(R.layout.activity_comic);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("fantasy");
-
+        getSupportActionBar().setTitle("Comic");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         currentUserID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
-        fantasyBookRef = FirebaseDatabase.getInstance().getReference().child("fantasy");
+        comicBookRef = FirebaseDatabase.getInstance().getReference().child("comic");
         progressDialog = new ProgressDialog(this);
 
-        addBookCoverImage = findViewById(R.id.FantasybookCover);
-        addTitle = findViewById(R.id.FantasybookTitle);
-        addContent = findViewById(R.id.FantasybookContent);
-        addDescription = findViewById(R.id.FantasybookDescription);
-        Button updateBookButton = findViewById(R.id.updateFantasyBook);
-        Button selectPdfFile = findViewById(R.id.addfantasyPdfFile);
+        addBookCoverImage = findViewById(R.id.comicbookCover);
+        addTitle = findViewById(R.id.comicbookTitle);
+        addContent = findViewById(R.id.comicbookContent);
+        addDescription = findViewById(R.id.comicbookDescription);
+        Button updateBookButton = findViewById(R.id.updateComicBook);
+        Button selectPdfFile = findViewById(R.id.addComicPdfFile);
 
         addBookCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,17 +82,17 @@ public class FantasyActivity extends AppCompatActivity {
         updateBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateFantasyBookInfo();
+                validateComicBookInfo();
             }
         });
 
         selectPdfFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(FantasyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(ComicActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     selectPdf();
                 }else{
-                    ActivityCompat.requestPermissions(FantasyActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+                    ActivityCompat.requestPermissions(ComicActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
                 }
             }
         });
@@ -131,15 +130,15 @@ public class FantasyActivity extends AppCompatActivity {
             imageUri = data.getData();
             addBookCoverImage.setImageURI(imageUri);
         } else if (requestCode == 56 && resultCode == RESULT_OK && data != null){
-            pdfUri = data.getData();
-            addContent.setText(String.format("%s%s", pdfUri, getString(R.string.pdf)));
-        }else {
-            Toast.makeText(this, "please select a file", Toast.LENGTH_LONG).show();
-        }
+        pdfUri = data.getData();
+        addContent.setText(String.format("%s%s", pdfUri, getString(R.string.pdf)));
+    }else {
+        Toast.makeText(this, "please select a file", Toast.LENGTH_LONG).show();
+    }
     }
 
 
-    private void validateFantasyBookInfo() {
+    private void validateComicBookInfo() {
         description = addDescription.getText().toString();
         title = addTitle.getText().toString();
 //        content = addContent.getText().toString();
@@ -170,11 +169,10 @@ public class FantasyActivity extends AppCompatActivity {
         String saveCurrentDate = currentDate.format(callForDate.getTime());
 
         Calendar callForTime = Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm",Locale.ENGLISH);
         String saveCurrentTime = currentTime.format(callForTime.getTime());
 
         postRandomName = saveCurrentDate + saveCurrentTime;
-
 
 
 
@@ -228,14 +226,15 @@ public class FantasyActivity extends AppCompatActivity {
 
     private void saveImagetoDatabase() {
 
-        fantasyBookRef.addValueEventListener(new ValueEventListener() {
+        comicBookRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()){
-//              firstCount = count.incrementAndGet();
-                fantasyBookCount = dataSnapshot.getChildrenCount();
-            }else {
-                    fantasyBookCount = 0;
+
+                if (dataSnapshot.exists()){
+//                    firstCount = count.incrementAndGet();
+                    comicBookCount = dataSnapshot.getChildrenCount();
+                }else {
+                    comicBookCount = 0;
 //                    firstCount = 0;
                 }
             }
@@ -250,28 +249,29 @@ public class FantasyActivity extends AppCompatActivity {
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
         postMap.put("postImage", downloadUrl);
-        postMap.put("counter",fantasyBookCount);
+        postMap.put("counter",comicBookCount);
         postMap.put("title", title);
 
-        fantasyBookRef.child(fantasyBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        comicBookRef.child(comicBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
                             progressDialog.dismiss();
-                            Toast.makeText(FantasyActivity.this, "new book is updated Successfully ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ComicActivity.this, "new book is updated Successfully ", Toast.LENGTH_SHORT).show();
                             sendUserToMainActivity();
+
                         }else {
                             String message = Objects.requireNonNull(task.getException()).getMessage();
                             progressDialog.dismiss();
-                            Toast.makeText(FantasyActivity.this, "Error occurred while updating ur book:  " + message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ComicActivity.this, "Error occurred while updating ur book:  " + message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
     void sendUserToMainActivity(){
-        Intent MainIntent = new Intent(FantasyActivity.this,MainActivity.class);
+        Intent MainIntent = new Intent(ComicActivity.this,MainActivity.class);
         MainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(MainIntent);
         finish();

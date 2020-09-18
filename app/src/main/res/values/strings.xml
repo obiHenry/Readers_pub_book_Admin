@@ -1,5 +1,22 @@
 <resources>
-    <string name="app_name">Readers_pub_ebook</string>
+    <string name="app_name">Readers_pub_ebook_admin</string>
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+    <string name="update_fantasy_books">Update Fantasy books</string>
+    <string name="content_of_the_book">content of the book</string>
+    <string name="book_description">book description</string>
+    <string name="book_title">book title</string>
+    <string name="add_image">add image</string>
+    <string name="update_classic_books">update classic books</string>
+    <string name="update_comic_books">Update comic books</string>
+    <string name="update_fiction_books">update fiction books</string>
+    <string name="update_history_books">update history books</string>
+    <string name="update_magical_books">update magical books</string>
+    <string name="update_medicals_books">update medicals books</string>
+    <string name="update_romance_books">update romance books</string>
+    <string name="update_science_books">update science books</string>
+    <string name="content_of_the_book_text_or_pdf">content of the book text or pdf</string>
+    <string name="add_a_pdf_file">add a pdf file</string>
+    <string name="pdf">.pdf</string>
+    <string name="classic">Classic</string>
 </resources>

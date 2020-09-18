@@ -4,22 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FantasyActivity">
-
-
-
-
-
+    tools:context=".ClassicActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:padding="20dp">
 
-
             <ImageButton
-                android:id="@+id/FantasybookCover"
+                android:id="@+id/classicbookCover"
                 android:layout_width="250dp"
                 android:layout_height="350dp"
                 android:layout_marginTop="5dp"
@@ -31,11 +24,11 @@
             </ImageButton>
 
             <EditText
-                android:id="@+id/FantasybookTitle"
+                android:id="@+id/classicbookTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:layout_below="@+id/FantasybookCover"
+                android:layout_below="@+id/classicbookCover"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
                 android:padding="15dp"
@@ -45,11 +38,11 @@
             </EditText>
 
             <EditText
-                android:id="@+id/FantasybookDescription"
+                android:id="@+id/classicbookDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:layout_below="@+id/FantasybookTitle"
+                android:layout_below="@+id/classicbookTitle"
                 android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
@@ -60,16 +53,16 @@
             </EditText>
 
             <EditText
-                android:id="@+id/FantasybookContent"
+                android:id="@+id/classicbookContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:layout_below="@+id/FantasybookDescription"
+                android:layout_below="@+id/classicbookDescription"
                 android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_text_background"
                 android:padding="15dp"
-                android:hint="@string/content_of_the_book"
+                android:hint="@string/content_of_the_book_text_or_pdf"
                 android:autofillHints="@string/content_of_the_book">
 
             </EditText>
@@ -83,19 +76,20 @@
                 android:textColor="#fff"
                 android:background="@color/colorPrimary"
                 android:padding="12dp"
-                android:layout_below="@+id/FantasybookContent"
-                android:id="@+id/addfantasyPdfFile"
+                android:layout_below="@+id/classicbookContent"
+                android:id="@+id/addPdfFile"
                 android:layout_marginTop="15dp"/>
+
             <Button
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/update_fantasy_books"
+                android:text="@string/update_classic_books"
                 android:textColor="#fff"
                 android:background="@color/colorPrimary"
                 android:padding="12dp"
-                android:layout_below="@+id/addfantasyPdfFile"
-                android:id="@+id/updateFantasyBook"
+                android:layout_below="@+id/addPdfFile"
+                android:id="@+id/updateClassicBook"
                 android:layout_marginTop="15dp"/>
         </RelativeLayout>
 </ScrollView>
