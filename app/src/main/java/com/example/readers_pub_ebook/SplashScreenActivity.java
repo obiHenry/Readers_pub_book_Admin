@@ -22,7 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         User = firebaseAuth.getCurrentUser();
 
 
-        int SPLASH_TIME_OUT = 500;
+        int SPLASH_TIME_OUT = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run () {

@@ -44,7 +44,7 @@ public class ScienceActivity extends AppCompatActivity {
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title, postRandomName, downloadUrl, pdfUrl, currentUserID;
+    public String description, title, postRandomName, downloadUrl, pdfUrl, currentUserID;
     private StorageReference storageReference;
     private DatabaseReference scienceBookRef;
     private ProgressDialog progressDialog;
@@ -211,6 +211,7 @@ public class ScienceActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             downloadUrl = uri.toString();
+                            saveImagetoDatabase();
 
                         }
                     });
@@ -249,11 +250,11 @@ public class ScienceActivity extends AppCompatActivity {
         HashMap<String, Object> postMap = new HashMap<>();
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
-        postMap.put("postImage", downloadUrl);
-        postMap.put("counter",scienceBookCount);
+        postMap.put("bookCover", downloadUrl);
+//        postMap.put("counter",scienceBookCount);
         postMap.put("title", title);
 
-        scienceBookRef.child(scienceBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        scienceBookRef.child(currentUserID + postRandomName).updateChildren(postMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

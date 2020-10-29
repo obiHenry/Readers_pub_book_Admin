@@ -44,7 +44,7 @@ public class HistoryActivity extends AppCompatActivity {
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title, postRandomName, currentUserID, downloadUrl, pdfUrl;
+    public String description, title, postRandomName, currentUserID, downloadUrl, pdfUrl;
     private StorageReference storageReference;
     private DatabaseReference historyBookRef;
     private ProgressDialog progressDialog;
@@ -205,6 +205,7 @@ public class HistoryActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             downloadUrl = uri.toString();
+                            saveImagetoDatabase();
 
                         }
                     });
@@ -243,11 +244,11 @@ public class HistoryActivity extends AppCompatActivity {
         HashMap<String, Object> postMap = new HashMap<>();
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
-        postMap.put("postImage", downloadUrl);
-        postMap.put("counter",historyBookCount);
+        postMap.put("bookCover", downloadUrl);
+//        postMap.put("counter",historyBookCount);
         postMap.put("title", title);
 
-        historyBookRef.child(historyBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        historyBookRef.child(currentUserID + postRandomName).updateChildren(postMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

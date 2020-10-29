@@ -33,9 +33,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 //import java.util.concurrent.atomic.AtomicInteger;
 
@@ -45,13 +48,15 @@ public class ClassicActivity extends AppCompatActivity {
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description,title, downloadUrl, pdfUrl, postRandomName, currentUserID;
+    public String description,title, downloadUrl, pdfUrl, postRandomName, currentUserID;
     private StorageReference storageReference;
     private DatabaseReference classicBookRef;
     private ProgressDialog progressDialog;
     private long classicBookCount = 0;
 //    private AtomicInteger count = new AtomicInteger(0);
 //    private int firstCount;
+    private static final int PICK_FILE = 1;
+    ArrayList<Uri> fileList = new ArrayList<Uri>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +119,14 @@ public class ClassicActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 56);
     }
+    private void multiplefile() {
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(intent, PICK_FILE);
+    }
+
 
 
     private void openGallery() {
@@ -135,6 +148,37 @@ public class ClassicActivity extends AppCompatActivity {
             addContent.setText(String.format("%s%s", pdfUri, getString(R.string.pdf)));
         }else {
             Toast.makeText(this, "please select a file", Toast.LENGTH_LONG).show();
+//        } if (requestCode == galleryPick && resultCode == RESULT_OK && data != null){
+//            if (data.getClipData() != null){
+//                int count = data.getClipData().getItemCount();
+//                int i = 0;
+//                while (i <count){
+//                    Uri file = data.getClipData().getItemAt(i).getUri();
+//                    fileList.add(file);
+//                    i++;
+//                }
+//
+//            }
+        }
+    }
+    public void uploadFiles(View view){
+        for(int j=0; j<fileList.size(); j++){
+            Uri perFile = fileList.get(j);
+
+            StorageReference Path = storageReference.child("FilePath");
+            final StorageReference filename = Path.child(perFile.getLastPathSegment());
+            filename.putFile(perFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    filename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            saveImagetoDatabase();
+                        }
+                    });
+                }
+            });
+
         }
     }
 
@@ -177,6 +221,13 @@ public class ClassicActivity extends AppCompatActivity {
 
         final StorageReference pdfPath = storageReference.child("pdfFilePath").child(postRandomName + ".pdf");
         final StorageReference filePath = storageReference.child("bookCoverImages").child(imageUri.getLastPathSegment()  + postRandomName + ".jpg");
+//
+//        Map<String,Uri > fileMap = new HashMap<>();
+//        fileMap.put("pdfpath",pdfUri);
+//        fileMap.put("bookCover", imageUri);
+//        ArrayList<Uri> list = new ArrayList<>();
+//        list .add(fileMap.getClass(pdfUri,imageUri));
+
 
 
         pdfPath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -187,16 +238,18 @@ public class ClassicActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                            pdfUrl = uri.toString();
+                           saveImagetoDatabase();
 
                         }
                     });
                 }
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+        }) .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                 int currentProgress = (int) (100*taskSnapshot.getBytesTransferred()/ taskSnapshot.getTotalByteCount());
                 progressDialog.setProgress(currentProgress);
+
 
             }
         });
@@ -207,8 +260,12 @@ public class ClassicActivity extends AppCompatActivity {
                     filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
+
                             downloadUrl = uri.toString();
                             saveImagetoDatabase();
+//
+//                            List<String> uploads = new ArrayList<>();
+//                            uploads.add(downloadUrl);
 
                         }
                     });
@@ -219,12 +276,16 @@ public class ClassicActivity extends AppCompatActivity {
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                 int currentProgress = (int) (100*taskSnapshot.getBytesTransferred()/ taskSnapshot.getTotalByteCount());
                 progressDialog.setProgress(currentProgress);
+//                progressDialog.show();
+//                progressDialog.dismiss();
 
             }
         });
+
+
     }
 
-    private void saveImagetoDatabase() {
+    private void saveImagetoDatabase( ) {
 
         classicBookRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -250,10 +311,10 @@ public class ClassicActivity extends AppCompatActivity {
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
         postMap.put("bookCover", downloadUrl);
-        postMap.put("counter",classicBookCount);
+//        postMap.put("counter",classicBookCount);
         postMap.put("title", title);
 
-        classicBookRef.child(classicBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        classicBookRef.child( currentUserID + postRandomName).updateChildren(postMap)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

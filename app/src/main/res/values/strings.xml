@@ -19,4 +19,12 @@
     <string name="add_a_pdf_file">add a pdf file</string>
     <string name="pdf">.pdf</string>
     <string name="classic">Classic</string>
+    <string name="comic">Comic</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="fiction">Fiction</string>
+    <string name="history">History</string>
+    <string name="magical">Magical</string>
+    <string name="medical">Medical</string>
+    <string name="romance">Romance</string>
+    <string name="science">Science</string>
 </resources>

@@ -43,7 +43,7 @@ public class MedicalsActivity extends AppCompatActivity {
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title,postRandomName,downloadUrl, pdfUrl, currentUserID;
+    public String description, title,postRandomName,downloadUrl, pdfUrl, currentUserID;
     private StorageReference storageReference;
     private DatabaseReference medicalBookRef;
     private ProgressDialog progressDialog;
@@ -205,6 +205,7 @@ public class MedicalsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             downloadUrl = uri.toString();
+                            saveImagetoDatabase();
 
                         }
                     });
@@ -243,11 +244,11 @@ public class MedicalsActivity extends AppCompatActivity {
         HashMap<String, Object> postMap = new HashMap<>();
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
-        postMap.put("postImage", downloadUrl);
-        postMap.put("counter",medicalBookCount);
+        postMap.put("bookCover", downloadUrl);
+//        postMap.put("counter",medicalBookCount);
         postMap.put("title", title);
 
-        medicalBookRef.child(medicalBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        medicalBookRef.child( currentUserID + postRandomName).updateChildren(postMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

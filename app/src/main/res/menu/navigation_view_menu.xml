@@ -3,46 +3,56 @@
 
     <item
         android:id="@+id/classic"
-        android:title="@string/classic"/>
+        android:title="@string/classic"
+        android:icon="@drawable/ic_classic"/>
 
     <item
         android:id="@+id/comic"
-        android:title="Comic "/>
+        android:title="@string/comic"
+        android:icon="@drawable/ic_comic"/>
 
     <item
         android:id="@+id/fantasy"
-        android:title="Fantasy">
+        android:title="@string/fantasy"
+        android:icon="@drawable/fantasy">
 
     </item>
 
     <item
         android:id="@+id/fiction"
-        android:title="Fiction"/>
+        android:title="@string/fiction"
+        android:icon="@drawable/ic_fiction"/>
 
     <item
         android:id="@+id/history"
-        android:title="History "/>
+        android:title="@string/history"
+        android:icon="@drawable/ic_history"/>
 
 
     <item
         android:id="@+id/magical"
-        android:title="Magical "/>
+        android:title="@string/magical"
+        android:icon="@drawable/ic_magical"/>
 
     <item
         android:id="@+id/medicals"
-        android:title="Medical">
+        android:title="@string/medical"
+        android:icon="@drawable/medicals">
     </item>
 
 
     <item
         android:id="@+id/romance"
-        android:title="Romance">
+        android:title="@string/romance"
+        android:icon="@drawable/ic_romance">
 
     </item>
 
     <item
         android:id="@+id/science"
-        android:title="Science">
+        android:title="@string/science"
+        android:icon="@drawable/ic_science"
+        >
 
     </item>
 

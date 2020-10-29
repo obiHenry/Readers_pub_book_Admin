@@ -44,7 +44,7 @@ public class RomanceActivity extends AppCompatActivity {
     private Uri imageUri, pdfUri;
     private ImageButton addBookCoverImage;
     private EditText addContent, addTitle, addDescription;
-    private String description, title,postRandomName, downloadUrl, pdfUrl, currentUserID;
+    public String description, title,postRandomName, downloadUrl, pdfUrl, currentUserID;
     private StorageReference storageReference;
     private DatabaseReference romanceBookRef;
     private ProgressDialog progressDialog;
@@ -211,6 +211,7 @@ public class RomanceActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             downloadUrl = uri.toString();
+                            saveImagetoDatabase();
 
                         }
                     });
@@ -249,11 +250,11 @@ public class RomanceActivity extends AppCompatActivity {
         HashMap<String, Object> postMap = new HashMap<>();
         postMap.put("content", pdfUrl);
         postMap.put("description", description);
-        postMap.put("postImage", downloadUrl);
-        postMap.put("counter",romanceBookCount);
+        postMap.put("bookCover", downloadUrl);
+//        postMap.put("counter",romanceBookCount);
         postMap.put("title", title);
 
-        romanceBookRef.child(romanceBookCount + "  "+ currentUserID + "  "+ postRandomName).updateChildren(postMap)
+        romanceBookRef.child(currentUserID + postRandomName).updateChildren(postMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
